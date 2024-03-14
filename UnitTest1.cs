@@ -223,21 +223,21 @@ namespace UnitTestProject1
             // Assert
             Assert.AreEqual(interestPct, account.InterestPct);
         }
-/*
-        [TestMethod]
-        public void TestAccountInterestPct_SetNegativeValue()
-        {
-            // Arrange
-            Account account = new Account(1);
-            double interestPct = -5.0; // -5%
+        /*
+                [TestMethod]
+                public void TestAccountInterestPct_SetNegativeValue()
+                {
+                    // Arrange
+                    Account account = new Account(1);
+                    double interestPct = -5.0; // -5%
 
-            // Act
-            account.InterestPct = interestPct;
+                    // Act
+                    account.InterestPct = interestPct;
 
-            // Assert
-            Assert.AreEqual(0.0, account.InterestPct); // Assuming that the interest rate cannot be negative
-        }
-*/
+                    // Assert
+                    Assert.AreEqual(0.0, account.InterestPct); // Assuming that the interest rate cannot be negative
+                }
+        */
         [TestMethod]
         public void TestAccountInterestRate_SetAndGet()
         {
@@ -251,21 +251,21 @@ namespace UnitTestProject1
             // Assert
             Assert.AreEqual(interestRate, account.InterestRate);
         }
-/*
-        [TestMethod]
-        public void TestAccountInterestRate_SetNegativeValue()
-        {
-            // Arrange
-            Account account = new Account(1);
-            double interestRate = -0.05; // -5%
+        /*
+                [TestMethod]
+                public void TestAccountInterestRate_SetNegativeValue()
+                {
+                    // Arrange
+                    Account account = new Account(1);
+                    double interestRate = -0.05; // -5%
 
-            // Act
-            account.InterestRate = interestRate;
+                    // Act
+                    account.InterestRate = interestRate;
 
-            // Assert
-            Assert.AreEqual(0.0, account.InterestRate); // Assuming that the interest rate cannot be negative
-        }
-*/
+                    // Assert
+                    Assert.AreEqual(0.0, account.InterestRate); // Assuming that the interest rate cannot be negative
+                }
+        */
     }
 
     [TestClass]
@@ -462,7 +462,7 @@ namespace UnitTestProject1
 
             // Act
             bool result = account.Transaction(value);
-            
+
             // Assert
             Assert.IsTrue(result);
             Assert.AreEqual(value, account.Balance);
@@ -498,11 +498,9 @@ namespace UnitTestProject1
             int value2 = 10;
             bool result1 = account.Transaction(value1);
             bool result2 = account.Transaction(value2);
-            if (account.Balance > 0)
-            {
-                Assert.IsTrue(result1 & result2);
-                Assert.AreEqual(value2, account.Balance);
-            }
+            Assert.IsTrue(result1);
+            Assert.IsTrue(result2);
+            Assert.AreEqual(value2, account.Balance);
         }
 
         [TestMethod] // 1_6
@@ -511,11 +509,8 @@ namespace UnitTestProject1
             Account fromAccount = new Account(1);
             int value = -10;
             bool result = fromAccount.Transaction(value);
-            if (fromAccount.Balance <= 0)
-            {
-                Assert.IsFalse(result);
-                Assert.AreEqual(0, fromAccount.Balance);
-            }
+            Assert.IsFalse(result);
+            Assert.AreEqual(0, fromAccount.Balance);
         }
         [TestMethod] // 1_7
         public void WithdrawFeasiblePositiveBalance()
@@ -525,7 +520,7 @@ namespace UnitTestProject1
             int value2 = -10;
             bool result1 = account.Transaction(value1);
             bool result2 = account.Transaction(value2);
-            if (account.Balance > 0)
+            if (account.Balance >= 0)
             {
                 Assert.AreEqual(value1 - Math.Abs(value2), account.Balance);
             }
@@ -538,9 +533,9 @@ namespace UnitTestProject1
             int value2 = -10;
             bool result1 = account.Transaction(value1);
             bool result2 = account.Transaction(value2);
-            if (account.Balance > 0)
+            if (account.Balance >= 0)
             {
-                Assert.AreEqual(value1 - Math.Abs(value2), account.Balance);
+                Assert.AreEqual(0, account.Balance);
             }
         }
 
@@ -552,9 +547,9 @@ namespace UnitTestProject1
             int value2 = -20;
             bool result1 = account.Transaction(value1);
             bool result2 = account.Transaction(value2);
-            if (account.Balance < 0)
+            if (account.Balance >= 0)
             {
-                Assert.AreEqual(value1 - Math.Abs(value2), account.Balance);
+                Assert.AreEqual(value1, account.Balance);
             }
         }
 
